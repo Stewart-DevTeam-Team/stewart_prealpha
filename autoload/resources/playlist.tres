@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="Playlist" format=3 uid="uid://bc3risb100107"]
+
+[ext_resource type="Script" uid="uid://cfmlmm4pm62wh" path="res://autoload/resources/scripts/playlist.gd" id="2_cu5nf"]
+
+[resource]
+script = ExtResource("2_cu5nf")

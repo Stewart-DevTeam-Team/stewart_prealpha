@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://cy7vur1h6q56d"]
+
+[ext_resource type="FontFile" uid="uid://byr8fa3nphenu" path="res://assets/fonts/akaya_kanadaka.ttf" id="1_a2m3a"]
+
+[resource]
+default_font = ExtResource("1_a2m3a")
+default_font_size = 20

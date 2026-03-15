@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://der4ps6vjnfwq"]
+
+[ext_resource type="Texture2D" uid="uid://cvf8e80p2eytx" path="res://assets/ui/start_menu/background.jpeg" id="1_4pu2r"]
+
+[node name="Background" type="TextureRect" unique_id=160058487]
+modulate = Color(0.34874016, 0.34874016, 0.34874016, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_4pu2r")
+expand_mode = 1
+stretch_mode = 6

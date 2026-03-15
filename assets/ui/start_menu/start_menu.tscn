@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://d0hkr7fsjwvdu"]
+
+[ext_resource type="Script" uid="uid://b1v7onw26ayha" path="res://assets/ui/start_menu/start_menu.gd" id="1_ks48u"]
+[ext_resource type="Theme" uid="uid://cy7vur1h6q56d" path="res://assets/ui/components/main_theme.tres" id="1_trvb0"]
+[ext_resource type="PackedScene" uid="uid://der4ps6vjnfwq" path="res://assets/ui/components/background.tscn" id="3_trvb0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_trvb0"]
+font_size = 160
+
+[sub_resource type="Theme" id="Theme_trvb0"]
+default_font_size = 48
+
+[node name="StartMenu" type="Control" unique_id=885961340]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_trvb0")
+script = ExtResource("1_ks48u")
+metadata/_edit_vertical_guides_ = [150.0, 1290.0]
+metadata/_edit_horizontal_guides_ = [100.0, 710.0]
+
+[node name="Background" parent="." unique_id=160058487 instance=ExtResource("3_trvb0")]
+layout_mode = 1
+
+[node name="Contents" type="VBoxContainer" parent="." unique_id=1307306161]
+custom_minimum_size = Vector2(375, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = -305.0
+offset_right = 644.0
+offset_bottom = 305.0
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Contents" unique_id=1034450143]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+text = "Stewart"
+label_settings = SubResource("LabelSettings_trvb0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Space" type="Control" parent="Contents" unique_id=1167567698]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Buttons" type="VBoxContainer" parent="Contents" unique_id=1720282817]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = SubResource("Theme_trvb0")
+theme_override_constants/separation = 20
+
+[node name="PlayButton" type="Button" parent="Contents/Buttons" unique_id=169955416]
+layout_mode = 2
+text = "Jugar"
+flat = true
+
+[node name="CreditsButton" type="Button" parent="Contents/Buttons" unique_id=291191106]
+layout_mode = 2
+text = "Créditos"
+flat = true
+
+[node name="QuitButton" type="Button" parent="Contents/Buttons" unique_id=1251111146]
+layout_mode = 2
+text = "Salir"
+flat = true
+
+[connection signal="pressed" from="Contents/Buttons/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Contents/Buttons/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="Contents/Buttons/QuitButton" to="." method="_on_quit_button_pressed"]

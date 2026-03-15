@@ -11,12 +11,26 @@ config_version=5
 [application]
 
 config/name="Stewart Prealpha"
-config/features=PackedStringArray("4.5", "Forward Plus")
-config/icon="res://icon.svg"
+config/description="Stewart es un RPG de fantasía, aventura y comedia que combina estética furry, aventura medieval y cultura colombiana."
+config/version="0.1"
+config/tags=PackedStringArray("gdd")
+run/main_scene="uid://d0hkr7fsjwvdu"
+config/features=PackedStringArray("4.6", "Forward Plus")
+config/icon="uid://b6368ena3wquo"
 
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+FlagsManager="*uid://cta06ediohss"
+GameConstants="*uid://bafho2r335kbv"
+MusicManager="*uid://dv2bd61v3fdf0"
+PlayerStats="*uid://b1ei5cqblmk3s"
+SceneManager="*uid://c7qpxa5bjkyo6"
+
+[display]
+
+window/size/viewport_width=1440
+window/size/viewport_height=810
 
 [dotnet]
 
@@ -24,12 +38,14 @@ project/assembly_name="Stewart Prealpha"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg", "res://addons/vector_display_2d/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
-"res://addons/": "purple"
+"res://addons/": "purple",
+"res://assets/": "green",
+"res://autoload/": "blue"
 }
 
 [input]
@@ -69,3 +85,13 @@ sprint={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"key_label":0,"unicode":99,"location":0,"echo":false,"script":null)
 ]
 }
+hit={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"key_label":0,"unicode":120,"location":0,"echo":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+
+[rendering]
+
+viewport/hdr_2d=true
