@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://bjbcewjokue1n" path="res://assets/character/character.gd" id="1_rfqar"]
 [ext_resource type="SpriteFrames" uid="uid://dx5lycjhypxey" path="res://assets/character/animations/character_animations.tres" id="2_lxacm"]
-[ext_resource type="Script" uid="uid://bm5vyafqw8tmc" path="res://assets/character/character_camera.gd" id="3_lxacm"]
 [ext_resource type="Script" uid="uid://bxs53es51hc4u" path="res://addons/state_machine/state_machine.gd" id="4_lxacm"]
 [ext_resource type="Script" uid="uid://j48ad3mrchj7" path="res://assets/character/state_machine/idle.gd" id="4_wvpp3"]
 [ext_resource type="Script" uid="uid://d2kg3pcxwtkrx" path="res://assets/character/state_machine/walk.gd" id="5_lxacm"]
@@ -21,22 +20,23 @@ shape = SubResource("RectangleShape2D_dbrvq")
 scale = Vector2(0.13636364, 0.13636373)
 sprite_frames = ExtResource("2_lxacm")
 animation = &"idle_down"
+autoplay = "idle_down"
 
 [node name="Camera" type="Camera2D" parent="." unique_id=896944815]
 zoom = Vector2(25, 25)
-script = ExtResource("3_lxacm")
+position_smoothing_enabled = true
 
-[node name="CharacterStateMachine" type="Node" parent="." unique_id=1437317356 node_paths=PackedStringArray("controlled_node", "default_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1437317356 node_paths=PackedStringArray("controlled_node", "default_state")]
 script = ExtResource("4_lxacm")
 controlled_node = NodePath("..")
 default_state = NodePath("Idle")
 metadata/_custom_type_script = "uid://bxs53es51hc4u"
 
-[node name="Idle" type="Node" parent="CharacterStateMachine" unique_id=2123208691]
+[node name="Idle" type="Node" parent="StateMachine" unique_id=2123208691]
 script = ExtResource("4_wvpp3")
 
-[node name="Walk" type="Node" parent="CharacterStateMachine" unique_id=1547635309]
+[node name="Walk" type="Node" parent="StateMachine" unique_id=1547635309]
 script = ExtResource("5_lxacm")
 
-[node name="Run" type="Node" parent="CharacterStateMachine" unique_id=313582186]
+[node name="Run" type="Node" parent="StateMachine" unique_id=313582186]
 script = ExtResource("6_eapd6")
