@@ -108,15 +108,6 @@ msgstr "End dialogue"
 msgid "generate_line_ids"
 msgstr "Generate line IDs"
 
-msgid "generate_ids.warning_title"
-msgstr "Generate line IDs?"
-
-msgid "generate_ids.warning_text"
-msgstr "Generate line IDs for all lines in all dialogue files?\n\n**Make sure to commit any changes to source control BEFORE running this because it cannot be undone.**"
-
-msgid "generate_ids.ok_button"
-msgstr "Generate IDs"
-
 msgid "use_uuid_only_for_ids"
 msgstr "Use UUID only for IDs"
 
@@ -268,7 +259,7 @@ msgid "errors.unexpected_condition"
 msgstr "Unexpected condition."
 
 msgid "errors.duplicate_id"
-msgstr "This ID is already in use."
+msgstr "This ID is already on another line."
 
 msgid "errors.missing_id"
 msgstr "This line is missing an ID."

@@ -184,7 +184,7 @@ namespace DialogueManagerRuntime
         }
 
 
-        public static Array<Dictionary> GetMembersForScript(Script script)
+        public static Array<Dictionary> GetMembersForAutoload(Script script)
         {
             Array<Dictionary> members = new Array<Dictionary>();
 
@@ -346,22 +346,19 @@ namespace DialogueManagerRuntime
         }
 
 
-        public async void ResolveThingMethod(float id, GodotObject thing, string method, Array<Variant> args)
+        public async void ResolveThingMethod(GodotObject thing, string method, Array<Variant> args)
         {
             MethodInfo? info = null;
             var methodInfos = thing.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.DeclaredOnly);
             foreach (var methodInfo in methodInfos)
             {
-                if (methodInfo.Name == method && args.Count >= methodInfo.GetParameters().Count(p => !p.HasDefaultValue))
+                if (methodInfo.Name == method && args.Count >= methodInfo.GetParameters().Where(p => !p.HasDefaultValue).Count())
                 {
                     info = methodInfo;
                 }
             }
 
-            if (info == null) {
-                EmitSignal(SignalName.Resolved, id);
-                return;
-            }
+            if (info == null) return;
 
 #nullable disable
             // Convert the method args to something reflection can handle
@@ -400,16 +397,16 @@ namespace DialogueManagerRuntime
                 try
                 {
                     object value = taskResult.GetType().GetProperty("Result").GetValue(taskResult);
-                    EmitSignal(SignalName.Resolved, id, ConvertValueToVariant(value));
+                    EmitSignal(SignalName.Resolved, ConvertValueToVariant(value));
                 }
                 catch (Exception)
                 {
-                    EmitSignal(SignalName.Resolved, id);
+                    EmitSignal(SignalName.Resolved);
                 }
             }
             else
             {
-                EmitSignal(SignalName.Resolved, id, ConvertValueToVariant(result));
+                EmitSignal(SignalName.Resolved, ConvertValueToVariant(result));
             }
         }
 #nullable enable

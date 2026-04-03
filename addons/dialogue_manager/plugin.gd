@@ -1,15 +1,10 @@
 @tool
-class_name DMPlugin extends EditorPlugin
+extends EditorPlugin
 
 
-signal cache_file_content_changed(path: String, new_content: String)
+const MainView = preload("./views/main_view.tscn")
+const FindInDialogueView = preload("./views/find_in_dialogue_view.tscn")
 
-
-const MainView: PackedScene = preload("./views/main_view.tscn")
-const FindInDialogueView: PackedScene = preload("./views/find_in_dialogue_view.tscn")
-
-
-static var instance: DMPlugin
 
 var import_plugin: DMImportPlugin
 var export_plugin: DMExportPlugin
@@ -17,10 +12,7 @@ var inspector_plugin: DMInspectorPlugin
 var translation_parser_plugin: DMTranslationParserPlugin
 var main_view: Control
 var find_in_dialogue_view: Control
-
-
-func _init() -> void:
-	instance = self
+var dialogue_cache: DMCache
 
 
 func _enable_plugin() -> void:
@@ -34,8 +26,12 @@ func _disable_plugin() -> void:
 
 func _enter_tree() -> void:
 	if Engine.is_editor_hint():
+		Engine.set_meta("DialogueManagerPlugin", self)
+
 		DMSettings.prepare()
-		DMCache.prepare()
+
+		dialogue_cache = DMCache.new()
+		Engine.set_meta("DMCache", dialogue_cache)
 
 		import_plugin = DMImportPlugin.new()
 		add_import_plugin(import_plugin)
@@ -52,6 +48,7 @@ func _enter_tree() -> void:
 		main_view = MainView.instantiate()
 		EditorInterface.get_editor_main_screen().add_child(main_view)
 		_make_visible(false)
+		main_view.add_child(dialogue_cache)
 
 		_update_localization()
 
@@ -77,14 +74,15 @@ func _exit_tree() -> void:
 	if is_instance_valid(main_view):
 		main_view.queue_free()
 
-	_hide_find_in_dialogue()
+	hide_find_in_dialogue()
+
+	Engine.remove_meta("DialogueManagerPlugin")
+	Engine.remove_meta("DMCache")
 
 	EditorInterface.get_file_system_dock().files_moved.disconnect(_on_files_moved)
 	EditorInterface.get_file_system_dock().file_removed.disconnect(_on_file_removed)
 
 	remove_tool_menu_item("Create copy of dialogue example balloon...")
-
-	instance = null
 
 
 func _has_main_screen() -> bool:
@@ -144,7 +142,8 @@ func _save_external_data() -> void:
 		main_view.apply_changes()
 		_update_localization()
 
-	DMCache.reimport_files()
+	if dialogue_cache != null:
+		dialogue_cache.reimport_files()
 
 
 func _build() -> bool:
@@ -154,31 +153,28 @@ func _build() -> bool:
 	# Ignore errors in other files if we are just running the test scene
 	if DMSettings.get_user_value("is_running_test_scene", true): return true
 
-	DMCache.reimport_files()
+	if dialogue_cache != null:
+		dialogue_cache.reimport_files()
 
-	var files_with_errors: Array[Dictionary] = DMCache.get_files_with_errors()
-	if files_with_errors.size() > 0:
-		for dialogue_file: Dictionary in files_with_errors:
-			push_error("You have %d error(s) in %s" % [dialogue_file.errors.size(), dialogue_file.path])
-		EditorInterface.edit_resource(load(files_with_errors[0].path))
-		main_view.show_build_error_dialog()
-		return false
+		var files_with_errors = dialogue_cache.get_files_with_errors()
+		if files_with_errors.size() > 0:
+			for dialogue_file in files_with_errors:
+				push_error("You have %d error(s) in %s" % [dialogue_file.errors.size(), dialogue_file.path])
+			EditorInterface.edit_resource(load(files_with_errors[0].path))
+			main_view.show_build_error_dialog()
+			return false
 
 	return true
 
 
 ## Open a [Dialogue Resource] and jump to a given title.
-static func open_file_at_title(resource_or_path: Variant, title: String, create_if_none: bool = false) -> void:
+func open_file_at_title(resource_or_path: Variant, title: String, create_if_none: bool = false) -> void:
 	var resource: DialogueResource = resource_or_path if resource_or_path is DialogueResource else load(resource_or_path)
 	EditorInterface.edit_resource(resource)
-	instance.main_view.go_to_title(title, create_if_none)
+	main_view.go_to_title(title, create_if_none)
 
 
-static func show_find_in_dialogue() -> void:
-	instance._show_find_in_dialogue()
-
-
-func _show_find_in_dialogue() -> void:
+func show_find_in_dialogue() -> void:
 	if not is_instance_valid(find_in_dialogue_view):
 		find_in_dialogue_view = FindInDialogueView.instantiate()
 		find_in_dialogue_view.main_view = main_view
@@ -188,14 +184,14 @@ func _show_find_in_dialogue() -> void:
 	find_in_dialogue_view.prepare()
 
 
-func _hide_find_in_dialogue() -> void:
+func hide_find_in_dialogue() -> void:
 	if is_instance_valid(find_in_dialogue_view):
 		remove_control_from_bottom_panel(find_in_dialogue_view)
 		find_in_dialogue_view.queue_free()
 
 
 ## Get the shortcuts used by the plugin
-static func get_editor_shortcuts() -> Dictionary:
+func get_editor_shortcuts() -> Dictionary:
 	var shortcuts: Dictionary = {
 		toggle_comment = [
 			_create_event("Ctrl+K"),
@@ -243,7 +239,7 @@ static func get_editor_shortcuts() -> Dictionary:
 
 	var paths = EditorInterface.get_editor_paths()
 	var settings: Resource = null
-	for version: String in ["4.5", "4.4", "4.3", "4"]:
+	for version in ["4.5", "4.4", "4.3", "4"]:
 		var path: String = paths.get_config_dir() + "/editor_settings-" + version + ".tres"
 		if FileAccess.file_exists(path):
 			settings = load(path)
@@ -251,18 +247,18 @@ static func get_editor_shortcuts() -> Dictionary:
 
 	if settings == null: return shortcuts
 
-	for s: Dictionary in settings.get("shortcuts"):
-		for key: String in shortcuts:
+	for s in settings.get("shortcuts"):
+		for key in shortcuts:
 			if s.name == "script_text_editor/%s" % key or s.name == "script_editor/%s" % key:
 				shortcuts[key] = []
-				for event: InputEvent in s.shortcuts:
+				for event in s.shortcuts:
 					if event is InputEventKey:
 						shortcuts[key].append(event)
 
 	return shortcuts
 
 
-static func _create_event(string: String) -> InputEventKey:
+func _create_event(string: String) -> InputEventKey:
 	var event: InputEventKey = InputEventKey.new()
 	var bits = string.split("+")
 	event.keycode = OS.find_keycode_from_string(bits[bits.size() - 1])
@@ -274,32 +270,30 @@ static func _create_event(string: String) -> InputEventKey:
 
 
 ## Get the editor shortcut that matches an event
-static func get_editor_shortcut(event: InputEventKey) -> String:
+func get_editor_shortcut(event: InputEventKey) -> String:
 	var shortcuts: Dictionary = get_editor_shortcuts()
-	for key: String in shortcuts:
-		for shortcut: InputEvent in shortcuts.get(key, []):
+	for key in shortcuts:
+		for shortcut in shortcuts.get(key, []):
 			if event.as_text().split(" ")[0] == shortcut.as_text().split(" ")[0]:
 				return key
 	return ""
 
 
 ## Get the current version
-static func get_version() -> String:
+func get_version() -> String:
 	var config: ConfigFile = ConfigFile.new()
 	config.load(get_plugin_path() + "/plugin.cfg")
 	return config.get_value("plugin", "version")
 
 
 ## Get the current path of the plugin
-static func get_plugin_path() -> String:
-	if not is_instance_valid(instance):
-		return ""
-	return instance.get_script().resource_path.get_base_dir()
+func get_plugin_path() -> String:
+	return get_script().resource_path.get_base_dir()
 
 
 ## Update references to a moved file
-func _update_import_paths(from_path: String, to_path: String) -> void:
-	DMCache.move_file_path(from_path, to_path)
+func update_import_paths(from_path: String, to_path: String) -> void:
+	dialogue_cache.move_file_path(from_path, to_path)
 
 	# Reopen the file if it's already open
 	if main_view.current_file_path == from_path:
@@ -310,8 +304,8 @@ func _update_import_paths(from_path: String, to_path: String) -> void:
 			main_view.open_file(to_path)
 
 	# Update any other files that import the moved file
-	var dependents: Array = DMCache.get_files_with_dependency(from_path)
-	for dependent: Dictionary in dependents:
+	var dependents = dialogue_cache.get_files_with_dependency(from_path)
+	for dependent in dependents:
 		dependent.dependencies.remove_at(dependent.dependencies.find(from_path))
 		dependent.dependencies.append(to_path)
 
@@ -322,7 +316,7 @@ func _update_import_paths(from_path: String, to_path: String) -> void:
 
 		# Open the file and update the path
 		var file: FileAccess = FileAccess.open(dependent.path, FileAccess.READ)
-		var text: String = file.get_as_text().replace(from_path, to_path)
+		var text = file.get_as_text().replace(from_path, to_path)
 		file.close()
 
 		file = FileAccess.open(dependent.path, FileAccess.WRITE)
@@ -334,18 +328,18 @@ func _update_localization() -> void:
 	if not DMSettings.get_setting(DMSettings.UPDATE_POT_FILES_AUTOMATICALLY, true):
 		return
 
-	var dialogue_files: PackedStringArray = DMCache.get_files()
+	var dialogue_files = dialogue_cache.get_files()
 
 	# Add any new files to POT generation
 	var files_for_pot: PackedStringArray = ProjectSettings.get_setting("internationalization/locale/translations_pot_files", [])
 	var files_for_pot_changed: bool = false
-	for path: String in dialogue_files:
+	for path in dialogue_files:
 		if not files_for_pot.has(path):
 			files_for_pot.append(path)
 			files_for_pot_changed = true
 
 	# Remove any POT references that don't exist any more
-	for i: int in range(files_for_pot.size() - 1, -1, -1):
+	for i in range(files_for_pot.size() - 1, -1, -1):
 		var file_for_pot: String = files_for_pot[i]
 		if file_for_pot.get_extension() == "dialogue" and not dialogue_files.has(file_for_pot):
 			files_for_pot.remove_at(i)
@@ -483,12 +477,12 @@ func _housekeeping() -> void:
 
 
 func _on_files_moved(old_file: String, new_file: String) -> void:
-	_update_import_paths(old_file, new_file)
+	update_import_paths(old_file, new_file)
 	DMSettings.move_recent_file(old_file, new_file)
 
 
 func _on_file_removed(file: String) -> void:
-	_update_import_paths(file, "")
+	update_import_paths(file, "")
 	if is_instance_valid(main_view):
 		main_view.close_file(file)
 	_update_localization()

@@ -308,9 +308,7 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 		var next_line: Dictionary = resource.lines.get(line.next_id)
 
 		# If the next line is an end and we have an ID trail then see if it points to responses
-		var peeked_at_stack: bool = false
 		if next_line.next_id == DMConstants.ID_END and stack.size() > 0:
-			peeked_at_stack = true
 			var return_to_resource = resource
 			var return_to_id: String = stack.front()
 			if "@" in return_to_id:
@@ -325,7 +323,7 @@ func get_line(resource: DialogueResource, key: String, extra_game_states: Array)
 			passed_title.emit(resource.titles.find_key(line.next_id))
 
 		# If the responses come from a snippet then we need to come back here afterwards.
-		if not peeked_at_stack and next_line.type == DMConstants.TYPE_GOTO and next_line.is_snippet and not id_trail.begins_with("|" + _get_id_with_resource(resource, next_line.next_id_after)):
+		if next_line.type == DMConstants.TYPE_GOTO and next_line.is_snippet and not id_trail.begins_with("|" + _get_id_with_resource(resource, next_line.next_id_after)):
 			id_trail = "|" + _get_id_with_resource(resource, next_line.next_id_after) + id_trail
 
 		# If the next line is a title then check where it points to see if that is a set of responses.
@@ -388,73 +386,52 @@ func get_resolved_line_data(data: Dictionary, extra_game_states: Array = []) -> 
 				body = bits[0]
 				body_else = bits[1]
 			var condition: Dictionary = compilation.extract_condition("if " + condition_raw, false, 0)
-			var condition_passed: bool = await _check_condition({ condition = condition }, extra_game_states)
 			# If the condition fails then use the else of ""
-			if not condition_passed:
+			if not await _check_condition({ condition = condition }, extra_game_states):
 				body = body_else
 			replacements.append({
 				start = conditional.get_start(),
 				end = conditional.get_end(),
 				string = conditional.get_string(),
-				body = body,
-				condition_passed = condition_passed
+				body = body
 			})
 
 		for i in range(replacements.size() - 1, -1, -1):
 			var r: Dictionary = replacements[i]
 			resolved_text = resolved_text.substr(0, r.start) + r.body + resolved_text.substr(r.end, 9999)
 			# Move any other markers now that the text has changed
-			_shift_markers(markers, r.start, r.end, r.body.length(), r.condition_passed)
+			_shift_markers(markers, r.start, r.end - r.start - r.body.length())
 
 		var image_tags: Array[RegExMatch] = compilation.regex.IMAGE_TAGS_REGEX.search_all(resolved_text)
 		for image_tag: RegExMatch in image_tags:
 			# The [img] and [/img] tags have already been accounted for so now we just need to
 			# adjust for the path length.
-			var path_length: int = image_tag.get_string(image_tag.names.path).length()
-			_shift_markers(markers, image_tag.get_start(), image_tag.get_start() + path_length, 0)
+			_shift_markers(markers, image_tag.get_start(), image_tag.get_string(image_tag.names.path).length())
 
 		markers.text = resolved_text
 
 	return markers
 
 
-func _shift_markers(markers: DMResolvedLineData, removed_start: int, removed_end: int, body_length: int, keep_inner: bool = true) -> void:
-	# Calculate the offset for markers after the removed range
-	var after_offset: int = removed_end - removed_start - body_length
-
+func _shift_markers(markers: DMResolvedLineData, if_after: int, by_offset: int) -> void:
 	for key in [&"speeds", &"time"]:
 		if markers.get(key) == null: continue
 		var marker = markers.get(key)
 		var next_marker: Dictionary = {}
 		for index in marker:
-			if index < removed_start:
+			if index < if_after:
 				next_marker[index] = marker[index]
-			elif index >= removed_end:
-				next_marker[index - after_offset] = marker[index]
-			elif keep_inner:
-				# Marker is inside the conditional range and should be kept
-				# Shift it to account for the [if] tag being removed
-				next_marker[removed_start] = marker[index]
-			else:
-				# marker is inside a failed conditional, remove it
-				continue
+			elif index > if_after:
+				next_marker[index - by_offset] = marker[index]
 		markers.set(key, next_marker)
-
 	var mutations: Array[Array] = markers.mutations
 	var next_mutations: Array[Array] = []
 	for mutation in mutations:
 		var index = mutation[0]
-		if index < removed_start:
+		if index < if_after:
 			next_mutations.append(mutation)
-		elif index >= removed_end:
-			next_mutations.append([index - after_offset, mutation[1]])
-		elif keep_inner:
-			# Mutation is inside the conditional range and should be kept
-			# Shift it to account for the [if] tag being removed
-			next_mutations.append([removed_start, mutation[1]])
-		else:
-			# mutation is inside a failed conditional, remove it
-			continue
+		elif index > if_after:
+			next_mutations.append([index - by_offset, mutation[1]])
 	markers.mutations = next_mutations
 
 
@@ -547,8 +524,6 @@ func static_id_to_line_ids(resource: DialogueResource, static_id: String) -> Pac
 
 # Call "start" on the given balloon.
 func _start_balloon(balloon: Node, resource: DialogueResource, title: String, extra_game_states: Array) -> void:
-	dialogue_started.emit(resource)
-
 	get_current_scene.call().add_child(balloon)
 
 	if balloon.has_method(&"start"):
@@ -557,6 +532,8 @@ func _start_balloon(balloon: Node, resource: DialogueResource, title: String, ex
 		balloon.Start(resource, title, extra_game_states)
 	else:
 		assert(false, DMConstants.translate(&"runtime.dialogue_balloon_missing_start_method"))
+
+	dialogue_started.emit(resource)
 
 
 # Get the path to the example balloon
@@ -828,7 +805,7 @@ func _mutate(mutation: Dictionary, extra_game_states: Array, is_inline_mutation:
 
 	# Or pass through to the resolver
 	else:
-		if not _mutation_contains_assignment(mutation.expression):
+		if not _mutation_contains_assignment(mutation.expression) and not is_inline_mutation:
 			mutated.emit(mutation.merged({ is_inline = is_inline_mutation }))
 
 		if mutation.get("is_blocking", true):
@@ -1033,7 +1010,7 @@ func _resolve(tokens: Array, extra_game_states: Array):
 				var caller: Dictionary = tokens[i - 2]
 				if Builtins.is_supported(caller.value):
 					caller.type = DMConstants.TOKEN_VALUE
-					caller.value = await Builtins.resolve_method(caller.value, function_name, args)
+					caller.value = Builtins.resolve_method(caller.value, function_name, args)
 					tokens.remove_at(i)
 					tokens.remove_at(i - 1)
 					i -= 2
@@ -1247,7 +1224,7 @@ func _resolve(tokens: Array, extra_game_states: Array):
 					if Builtins.is_supported(caller.value):
 						caller.value = Builtins.resolve_property(caller.value, property)
 					else:
-						caller.value = _resolve_thing_property(caller.value, property)
+						caller.value = caller.value.get(property)
 				tokens.remove_at(i)
 				tokens.remove_at(i - 1)
 				i -= 2
@@ -1555,7 +1532,7 @@ func _get_method_info_for(thing: Variant, method: String, args: Array) -> Dictio
 
 func _resolve_thing_method(thing, method: String, args: Array):
 	if Builtins.is_supported(thing):
-		var result = await Builtins.resolve_method(thing, method, args)
+		var result = Builtins.resolve_method(thing, method, args)
 		if not Builtins.has_resolve_method_failed():
 			return result
 
@@ -1592,29 +1569,12 @@ func _resolve_thing_method(thing, method: String, args: Array):
 	if thing is Script:
 		thing = thing.new()
 	var dotnet_dialogue_manager = _get_dotnet_dialogue_manager()
-	var id: float = randf()
-	dotnet_dialogue_manager.ResolveThingMethod(id, thing, method, args)
-	var x: int = 0
-	while x < 1000:
-		var result = await dotnet_dialogue_manager.Resolved
-		if result[0] == id:
-			return result[1]
-		x += 1
-
-
-func _resolve_thing_property(thing: Object, property: String) -> Variant:
-	if thing == null:
-		return false
-
-	if thing.get_script() and thing.get_script().resource_path.ends_with(".cs"):
-		# If we get this far then the property might be a C# constant.
-		return _get_dotnet_dialogue_manager().ResolveThingConstant(thing, property)
-
-	return thing.get(property)
+	dotnet_dialogue_manager.ResolveThingMethod(thing, method, args)
+	return await dotnet_dialogue_manager.Resolved
 
 
 func _get_resource_uid(resource: DialogueResource) -> String:
-	return ResourceUID.id_to_text(ResourceLoader.get_resource_uid(resource.resource_path)).replace("uid://", "")
+	return ResourceUID.path_to_uid(resource.resource_path).replace("uid://", "")
 
 
 func _get_id_with_resource(resource: DialogueResource, id: String) -> String:

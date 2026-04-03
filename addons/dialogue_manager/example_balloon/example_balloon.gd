@@ -11,9 +11,6 @@ class_name DialogueManagerExampleBalloon extends CanvasLayer
 ## If running as a [Node] in a scene then auto start the dialogue.
 @export var auto_start: bool = false
 
-## If all other input is blocked as long as dialogue is shown.
-@export var will_block_other_input: bool = true
-
 ## The action to use for advancing the dialogue
 @export var next_action: StringName = &"ui_accept"
 
@@ -95,8 +92,7 @@ func _process(delta: float) -> void:
 
 func _unhandled_input(_event: InputEvent) -> void:
 	# Only the balloon is allowed to handle input while it's showing
-	if will_block_other_input:
-		get_viewport().set_input_as_handled()
+	get_viewport().set_input_as_handled()
 
 
 func _notification(what: int) -> void:
