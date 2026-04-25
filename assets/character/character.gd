@@ -36,6 +36,8 @@ const EPSILON := 0.05
 @onready var last_global_pos: Vector2 = global_position
 ## Última velocidad global del personaje. La usaremos para las animaciones
 @onready var last_velocity: Vector2 = Vector2.ZERO
+## Última dirección
+@onready var last_direction: Vector2 = Vector2.DOWN
 
 
 ## Bandera que determina si el jugador se mueve por el jugador o sigue a otro
@@ -54,6 +56,7 @@ var direction_name: StringName = Directions.DOWN:
 func _physics_process(delta: float) -> void:
 	# Actualiza la dirección de la entrada de teclado
 	input_direction = Input.get_vector(&"left", &"right", &"up", &"down")
+	if input_direction: last_direction = input_direction
 
 	# Actualiza el path si nos hemos movido lo suficiente
 	var distance := (global_position - last_path_pos).length()
