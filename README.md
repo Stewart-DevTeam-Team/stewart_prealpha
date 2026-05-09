@@ -5,7 +5,7 @@
 ![Godot 4](https://img.shields.io/badge/Godot-4.6-0ea5e9?style=flat-square&logo=godotengine&logoColor=0ea5e9)
 [![Linktree](https://img.shields.io/badge/Linktree-gray?style=flat-square&logo=linktree&logoColor=%2345E55F)](https://linktr.ee/stewart_devteam)
 [![Mintlify docs](https://img.shields.io/badge/Mintlify-docs-18E299?style=flat-square&logo=mintlify)](https://mintlify.wiki/Stewart-DevTeam-Team/stewart_prealpha)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](./LICENSE.md)
 [![Assets License](https://img.shields.io/badge/Assets%20License-CC%20BY--NC%204.0-lightgrey?style=flat-square)](./ASSETS_LICENSE.md)
 
 </div>
@@ -51,7 +51,7 @@ Puedes usar **GitHub Desktop** para gestionar todo esto de forma más sencilla.
 ---
 
 ## Licencia
-El código fuente está bajo la licencia [MIT](./LICENSE). Los recursos creativos originales están bajo [CC BY-NC 4.0](./ASSETS_LICENSE.md). Los recursos de terceros mantienen sus propias licencias originales.
+El código fuente está bajo la licencia [MIT](./LICENSE.md). Los recursos creativos originales están bajo [CC BY-NC 4.0](./ASSETS_LICENSE.md). Los recursos de terceros mantienen sus propias licencias originales.
 
 Stewart es creado por _Stewart DevTeam_, un equipo de desarrollo de GDD (antes *UN Games*) de la Universidad Nacional de Colombia.
 
