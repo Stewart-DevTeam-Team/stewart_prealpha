@@ -50,7 +50,6 @@ var direction_name: StringName = Directions.DOWN:
 	set(value):
 		if value == direction_name: return
 		direction_name = value
-		print("[Character] Última dirección: %s" % direction_name)
 
 
 func _physics_process(delta: float) -> void:
@@ -93,7 +92,6 @@ func play_anim(anim_name := &"") -> void:
 	var final_name := "%s_%s" % [anim_name, final_direction_name]
 	if final_name == sprite.animation: return
 
-	print("[Character] Ejecutando animación: %s" % final_name)
 	sprite.play(final_name)
 
 
