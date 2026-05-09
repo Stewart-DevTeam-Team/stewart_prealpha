@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://5s50x0jm5ws5"]
 
 [ext_resource type="Script" uid="uid://bjbcewjokue1n" path="res://assets/character/character.gd" id="1_rfqar"]
-[ext_resource type="SpriteFrames" uid="uid://dx5lycjhypxey" path="res://assets/character/animations/character_animations.tres" id="2_lxacm"]
+[ext_resource type="SpriteFrames" uid="uid://dx5lycjhypxey" path="res://assets/character/sprites/animations.tres" id="2_lxacm"]
 [ext_resource type="Script" uid="uid://bxs53es51hc4u" path="res://addons/state_machine/state_machine.gd" id="4_lxacm"]
-[ext_resource type="Script" uid="uid://j48ad3mrchj7" path="res://assets/character/state_machine/idle.gd" id="4_wvpp3"]
-[ext_resource type="Script" uid="uid://d2kg3pcxwtkrx" path="res://assets/character/state_machine/walk.gd" id="5_lxacm"]
-[ext_resource type="Script" uid="uid://bmso132ekg6xv" path="res://assets/character/state_machine/run.gd" id="6_eapd6"]
+[ext_resource type="Script" uid="uid://j48ad3mrchj7" path="res://assets/character/states/idle.gd" id="4_wvpp3"]
+[ext_resource type="Script" uid="uid://d2kg3pcxwtkrx" path="res://assets/character/states/walk.gd" id="5_lxacm"]
+[ext_resource type="Script" uid="uid://bmso132ekg6xv" path="res://assets/character/states/run.gd" id="6_eapd6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dbrvq"]
 size = Vector2(1.5, 0.5625)

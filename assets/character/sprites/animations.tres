@@ -1,14 +1,14 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://dx5lycjhypxey"]
 
-[ext_resource type="Texture2D" uid="uid://fhdqhdolc5wj" path="res://assets/character/sprite_sheets/idle/idle_down.png" id="1_rgpjb"]
-[ext_resource type="Texture2D" uid="uid://c8ngott3b7wcc" path="res://assets/character/sprite_sheets/idle/idle_side.png" id="2_uxf1c"]
-[ext_resource type="Texture2D" uid="uid://ddbbrffxkyngy" path="res://assets/character/sprite_sheets/idle/idle_up.png" id="3_jj0ry"]
-[ext_resource type="Texture2D" uid="uid://dlc5vxd8x2rvf" path="res://assets/character/sprite_sheets/run/run_down.png" id="4_62icq"]
-[ext_resource type="Texture2D" uid="uid://b7r21iaraofp0" path="res://assets/character/sprite_sheets/run/run_side.png" id="5_104hd"]
-[ext_resource type="Texture2D" uid="uid://cwl4rgv8f75ji" path="res://assets/character/sprite_sheets/run/run_up.png" id="6_udm1f"]
-[ext_resource type="Texture2D" uid="uid://bvwlv8jbuov8k" path="res://assets/character/sprite_sheets/walk/walk_down.png" id="7_m0p1u"]
-[ext_resource type="Texture2D" uid="uid://cgy1m1qc4rw1x" path="res://assets/character/sprite_sheets/walk/walk_side.png" id="8_r44q7"]
-[ext_resource type="Texture2D" uid="uid://38jtxvx8ihds" path="res://assets/character/sprite_sheets/walk/walk_up.png" id="9_kdy43"]
+[ext_resource type="Texture2D" uid="uid://fhdqhdolc5wj" path="res://assets/character/sprites/idle/idle_down.png" id="1_rgpjb"]
+[ext_resource type="Texture2D" uid="uid://c8ngott3b7wcc" path="res://assets/character/sprites/idle/idle_side.png" id="2_uxf1c"]
+[ext_resource type="Texture2D" uid="uid://ddbbrffxkyngy" path="res://assets/character/sprites/idle/idle_up.png" id="3_jj0ry"]
+[ext_resource type="Texture2D" uid="uid://dlc5vxd8x2rvf" path="res://assets/character/sprites/run/run_down.png" id="4_62icq"]
+[ext_resource type="Texture2D" uid="uid://b7r21iaraofp0" path="res://assets/character/sprites/run/run_side.png" id="5_104hd"]
+[ext_resource type="Texture2D" uid="uid://cwl4rgv8f75ji" path="res://assets/character/sprites/run/run_up.png" id="6_udm1f"]
+[ext_resource type="Texture2D" uid="uid://bvwlv8jbuov8k" path="res://assets/character/sprites/walk/walk_down.png" id="7_m0p1u"]
+[ext_resource type="Texture2D" uid="uid://cgy1m1qc4rw1x" path="res://assets/character/sprites/walk/walk_side.png" id="8_r44q7"]
+[ext_resource type="Texture2D" uid="uid://38jtxvx8ihds" path="res://assets/character/sprites/walk/walk_up.png" id="9_kdy43"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_krvir"]
 atlas = ExtResource("1_rgpjb")

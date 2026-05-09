@@ -1,3 +1,9 @@
+# Mayo de 2026
+
+## Semana del 27 de abril al 3 de mayo
+- [02 mayo 2026] Simplificación en el sistema de movimiento en fila
+
+
 # Abril de 2026
 
 ## Semana del 20 al 26 de abril
@@ -13,12 +19,14 @@
 - [03 abril 2026] Prototipo de movimiento funcional
 - [03 abril 2026] Inicio de la fase de prototipado
 
+
 # Marzo de 2026
 
 ## Semana del 9 al 15 de marzo
 - [15 marzo 2026] Diseño de la interfaz principal finalizado
 - [15 marzo 2026] Configuración e instalación de fuentes del proyecto
 - [15 marzo 2026] Configuración de addons y herramientas externas
+
 
 # Noviembre de 2025
 
