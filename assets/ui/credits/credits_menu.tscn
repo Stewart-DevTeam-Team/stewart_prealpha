@@ -83,74 +83,96 @@ alignment = 1
 
 [node name="Title" type="Label" parent="Contents/LeftColumn/Section2" unique_id=522942603]
 layout_mode = 2
-text = "Artista principal"
+text = "Arte y diseño visual"
 label_settings = ExtResource("5_p1adr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Content" type="Label" parent="Contents/LeftColumn/Section2" unique_id=1767490326]
 layout_mode = 2
-text = "Alez Chinome (Alex Hyena)"
+text = "Alex Chinome (Alex Hyena)
+Becker Tomala"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Section3" type="VBoxContainer" parent="Contents/LeftColumn" unique_id=304827645]
+[node name="Section3" type="VBoxContainer" parent="Contents/LeftColumn" unique_id=1282231489]
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Contents/LeftColumn/Section3" unique_id=1055261117]
+[node name="Title" type="Label" parent="Contents/LeftColumn/Section3" unique_id=1821812529]
 layout_mode = 2
-text = "Compositora"
+text = "Asistencia y feedback"
 label_settings = ExtResource("5_p1adr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Content" type="Label" parent="Contents/LeftColumn/Section3" unique_id=920585083]
+[node name="Content" type="Label" parent="Contents/LeftColumn/Section3" unique_id=2087175786]
 layout_mode = 2
-text = "Luna Maldonado (PianSparky)"
+text = "Daniel Alejandro Durán (Wolfy)
+Steven"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Section4" type="VBoxContainer" parent="Contents/LeftColumn" unique_id=1382010500]
+[node name="Section4" type="VBoxContainer" parent="Contents/LeftColumn" unique_id=304827645]
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Contents/LeftColumn/Section4" unique_id=1927366100]
+[node name="Title" type="Label" parent="Contents/LeftColumn/Section4" unique_id=1055261117]
 layout_mode = 2
-text = "Otros contribuidores (retirados)"
+text = "Composición y música"
 label_settings = ExtResource("5_p1adr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Content" type="Label" parent="Contents/LeftColumn/Section4" unique_id=2001870213]
+[node name="Content" type="Label" parent="Contents/LeftColumn/Section4" unique_id=920585083]
 layout_mode = 2
-text = "Daniel Alejandro Durán Colorado (Wolfy Elite)
-Carlos Samuel Ariza Cano
-Thomas Gómez González
-Santiago Manjarres Vargas (Taun)"
+text = "Luna Maldonado (PianSparky)
+Lucas Romero"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RightColumn" type="VBoxContainer" parent="Contents" unique_id=1653350809]
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
+theme_override_constants/separation = 32
 alignment = 1
 
-[node name="Content" type="Label" parent="Contents/RightColumn" unique_id=1332877402]
+[node name="Section" type="VBoxContainer" parent="Contents/RightColumn" unique_id=1382010500]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Contents/RightColumn/Section" unique_id=1927366100]
+layout_mode = 2
+text = "Otros contribuidores (retirados)"
+label_settings = ExtResource("5_p1adr")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Content" type="Label" parent="Contents/RightColumn/Section" unique_id=2001870213]
+layout_mode = 2
+text = "Carlos Samuel Ariza Cano
+Thomas Gómez González"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Section2" type="VBoxContainer" parent="Contents/RightColumn" unique_id=262673502]
+layout_mode = 2
+
+[node name="Content" type="Label" parent="Contents/RightColumn/Section2" unique_id=1332877402]
 layout_mode = 2
 text = "Creado con"
 label_settings = ExtResource("5_p1adr")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Contents/RightColumn" unique_id=987132734]
+[node name="TextureRect" type="TextureRect" parent="Contents/RightColumn/Section2" unique_id=987132734]
 custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 texture = ExtResource("7_w5wmn")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Content2" type="Label" parent="Contents/RightColumn" unique_id=954578317]
+[node name="Content2" type="Label" parent="Contents/RightColumn/Section2" unique_id=954578317]
 layout_mode = 2
 text = "por Stewart DevTeam"
 horizontal_alignment = 1

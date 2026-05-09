@@ -14,7 +14,7 @@ config/name="Stewart Prealpha"
 config/description="Stewart es un RPG de fantasía, aventura y comedia que combina estética furry, aventura medieval y cultura colombiana."
 config/version="0.1"
 config/tags=PackedStringArray("gdd")
-run/main_scene="uid://cacld0petm7tj"
+run/main_scene="uid://d0hkr7fsjwvdu"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="uid://b6368ena3wquo"
 
