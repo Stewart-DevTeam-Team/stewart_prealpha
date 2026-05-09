@@ -27,6 +27,10 @@ MusicManager="*uid://dv2bd61v3fdf0"
 PlayerStats="*uid://b1ei5cqblmk3s"
 SceneManager="*uid://c7qpxa5bjkyo6"
 
+[dialogue_manager]
+
+runtime/balloon_path="res://assets/dialogues/dialogue_balloon.tscn"
+
 [display]
 
 window/size/viewport_width=1440
