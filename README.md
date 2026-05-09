@@ -52,4 +52,14 @@ Inspirado en *Deltarune*, *Hollow Knight* y *The Valiant Prince Ivandoe*, entre 
 ## Licencia
 El código fuente y los assets-elementos creativos están bajo las licencias [MIT](./LICENSE) y [CC BY-NC 4.0](ASSETS_LICENSE.md) respectivamente.
 
-Stewart es creado por [Stewart DevTeam](./ASSETS_LICENSE#miembros-del-equipo-stewart-devteam), un equipo de GDD (antes *UN Games*) de la Universidad Nacional de Colombia.
+Stewart es creado por _Stewart DevTeam_, un equipo de GDD (antes *UN Games*) de la Universidad Nacional de Colombia.
+
+> ### Integrantes de Stewart DevTeam
+>
+> 1. Hayran Andrés López
+> 2. Luna Isabel Maldonado (PianSparky)
+> 3. Alex Chinome Quemba (Alex Hyena)
+> 4. Becker Tomala
+> 5. Lucas Romero
+> 6. Daniel Durán (Wolfy) 
+> 7. Steven (?)
