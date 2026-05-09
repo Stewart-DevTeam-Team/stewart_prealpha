@@ -2,12 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://d0hkr7fsjwvdu" path="res://assets/ui/start_menu/start_menu.tscn" id="1_jugq0"]
 [ext_resource type="PackedScene" uid="uid://k5v78dqe0qjj" path="res://assets/ui/credits/credits_menu.tscn" id="2_vwwhh"]
+[ext_resource type="PackedScene" uid="uid://cacld0petm7tj" path="res://assets/world/world.tscn" id="3_ydkrs"]
 [ext_resource type="Script" uid="uid://bkfu63lx5lp04" path="res://autoload/resources/scripts/scenes.gd" id="4_ydkrs"]
 
 [resource]
 script = ExtResource("4_ydkrs")
 items = Dictionary[String, Variant]({
 "credits_menu": ExtResource("2_vwwhh"),
-"start_menu": ExtResource("1_jugq0")
+"start_menu": ExtResource("1_jugq0"),
+"world": ExtResource("3_ydkrs")
 })
 metadata/_custom_type_script = "uid://bkfu63lx5lp04"

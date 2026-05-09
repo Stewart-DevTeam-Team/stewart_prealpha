@@ -2,7 +2,7 @@ extends Control
 
 
 func _on_play_button_pressed() -> void:
-	pass # Replace with function body.
+	SceneManager.change_to_scene("world")
 
 
 func _on_credits_button_pressed() -> void:
