@@ -26,6 +26,8 @@ const EPSILON := 0.05
 
 ## Sprite con las animaciones
 @onready var sprite: AnimatedSprite2D = $PlaceholderSprite
+## Máquina de estados
+@onready var state_machine: StateMachine = $StateMachine
 ## Última posición (global) en la que se actualizó el path de los personajes
 @onready var last_path_pos: Vector2 = global_position:
 	set(value):
@@ -114,6 +116,24 @@ func _update_direction_name() -> void:
 		direction_name = Directions.DOWN if last_velocity.y > 0 else Directions.UP
 
 	play_anim()
+
+
+#endregion
+
+
+#region Pausado
+
+
+## Pausa al personaje para que no se mueva
+func set_paused(value: bool) -> void:
+	# Pausa
+	if value:
+		state_machine.current_state.to_state.emit(CharacterPause)
+		return
+
+	# Reanuda
+	if state_machine.current_state is CharacterPause:
+		state_machine.current_state.to_state.emit(CharacterIdle)
 
 
 #endregion

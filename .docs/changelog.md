@@ -1,5 +1,9 @@
 # Mayo de 2026
 
+## Semana del 4 al 10 de mayo
+- [09 mayo 2026] Mejoras en el README
+- [09 mayo 2026] Menú de pausa básico implementado
+
 ## Semana del 27 de abril al 3 de mayo
 - [02 mayo 2026] Simplificación en el sistema de movimiento en fila
 

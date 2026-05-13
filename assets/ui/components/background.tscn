@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://der4ps6vjnfwq"]
 
-[ext_resource type="Texture2D" uid="uid://cvf8e80p2eytx" path="res://assets/ui/start_menu/background.jpeg" id="1_4pu2r"]
+[ext_resource type="Texture2D" uid="uid://cvf8e80p2eytx" path="res://assets/ui/components/background.jpeg" id="1_4pu2r"]
 
 [node name="Background" type="TextureRect" unique_id=160058487]
 modulate = Color(0.34874016, 0.34874016, 0.34874016, 1)

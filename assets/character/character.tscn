@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://j48ad3mrchj7" path="res://assets/character/states/idle.gd" id="4_wvpp3"]
 [ext_resource type="Script" uid="uid://d2kg3pcxwtkrx" path="res://assets/character/states/walk.gd" id="5_lxacm"]
 [ext_resource type="Script" uid="uid://bmso132ekg6xv" path="res://assets/character/states/run.gd" id="6_eapd6"]
+[ext_resource type="Script" uid="uid://ccjgd872mxyo7" path="res://assets/character/states/pause.gd" id="7_lxacm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dbrvq"]
 size = Vector2(1.5, 0.5625)
@@ -44,3 +45,6 @@ script = ExtResource("5_lxacm")
 
 [node name="Run" type="Node" parent="StateMachine" unique_id=313582186]
 script = ExtResource("6_eapd6")
+
+[node name="Pause" type="Node" parent="StateMachine" unique_id=9146761]
+script = ExtResource("7_lxacm")

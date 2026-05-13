@@ -7,7 +7,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 64.0
 grow_horizontal = 2
-color = Color(0.3882353, 0.6901961, 0.21960784, 0.3137255)
+color = Color(0, 0, 0, 0)
 script = ExtResource("1_7j1rl")
 
 [node name="BackButton" type="Button" parent="." unique_id=1560151681]
@@ -21,5 +21,6 @@ offset_right = 78.0
 offset_bottom = 16.0
 grow_vertical = 2
 text = "Volver"
+flat = true
 
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
